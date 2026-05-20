@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TitanPl SpaceStation 🚀</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@500;700&family=JetBrains+Mono&display=swap"
+        rel="stylesheet">
+
+</head>
+
+
+<style>
+   /* =========================
+   RESPONSIVE IMPROVEMENTS
+   ========================= */
+
+:root {
+    --bg: #0a0a0c;
+    --surface: #16161a;
+    --accent: #631bff;
+    --accent-glow: rgba(99, 27, 255, 0.35);
+    --text: #e0e0e6;
+    --text-dim: #9494a0;
+    --border: #2d2d35;
+    --success: #00e676;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 100vh;
+    padding: 12px;
+}
+
+/* =========================
+   MAIN APP
+   ========================= */
+
+.app-container {
+    width: 100%;
+    max-width: 850px;
+    height: 95vh;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+
+    backdrop-filter: blur(10px);
+}
+
+/* =========================
+   HEADER
+   ========================= */
+
+header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+
+    flex-wrap: wrap;
+}
+
+h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    min-width: 0;
+    flex-wrap: wrap;
+
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#status {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    flex-shrink: 0;
+}
+
+#status::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+
+    background: #ff5252;
+    box-shadow: 0 0 10px #ff5252;
+}
+
+#status.connected::before {
+    background: var(--success);
+    box-shadow: 0 0 10px var(--success);
+}
+
+.room-badge {
+    font-size: 0.7rem;
+    color: white;
+
+    padding: 4px 10px;
+    border-radius: 999px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    white-space: nowrap;
+}
+
+/* =========================
+   CHAT AREA
+   ========================= */
+
+.chat-area {
+    flex: 1;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    scroll-behavior: smooth;
+}
+
+.chat-area::-webkit-scrollbar {
+    width: 5px;
+}
+
+.chat-area::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 999px;
+}
+
+/* =========================
+   MESSAGE
+   ========================= */
+
+.message {
+    max-width: 82%;
+    padding: 12px 16px;
+
+    border-radius: 18px;
+
+    font-size: 0.95rem;
+    line-height: 1.5;
+
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+
+    animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message.space-ship {
+    align-self: center;
+
+    background: rgba(255, 255, 255, 0.05);
+
+    color: var(--text-dim);
+
+    font-size: 0.76rem;
+    text-align: center;
+
+    padding: 8px 12px;
+
+    border-radius: 10px;
+
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.message.incoming {
+    align-self: flex-start;
+
+    background: #252529;
+
+    border-bottom-left-radius: 6px;
+}
+
+.message.outgoing {
+    align-self: flex-end;
+
+    background: var(--accent);
+    color: white;
+
+    border-bottom-right-radius: 6px;
+
+    box-shadow: 0 4px 15px var(--accent-glow);
+}
+
+.message-info {
+    font-size: 0.7rem;
+    opacity: 0.65;
+
+    margin-bottom: 6px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    flex-wrap: wrap;
+}
+
+/* =========================
+   CONTROLS
+   ========================= */
+
+.controls {
+    padding: 18px 20px;
+
+    border-top: 1px solid var(--border);
+
+    background: rgba(0, 0, 0, 0.2);
+
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.input-group {
+    display: flex;
+    align-items: stretch;
+    gap: 12px;
+}
+
+input {
+    flex: 1;
+    min-width: 0;
+
+    background: #1c1c21;
+    color: var(--text);
+
+    border: 1px solid var(--border);
+    border-radius: 14px;
+
+    padding: 14px 18px;
+
+    font-size: 0.95rem;
+    font-family: inherit;
+
+    outline: none;
+
+    transition: 0.2s ease;
+}
+
+input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+button {
+    border: none;
+    border-radius: 14px;
+
+    background: var(--accent);
+    color: white;
+
+    padding: 0 22px;
+
+    min-height: 52px;
+
+    font-size: 0.92rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    white-space: nowrap;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--accent-glow);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* =========================
+   TABLETS
+   ========================= */
+
+@media (max-width: 768px) {
+    body {
+        padding: 0;
+    }
+
+    .app-container {
+        border-radius: 0;
+        max-width: 100%;
+        height: 100dvh;
+    }
+
+    header {
+        padding: 16px;
+    }
+
+    h1 {
+        font-size: 1.15rem;
+    }
+
+    .chat-area {
+        padding: 16px;
+    }
+
+    .controls {
+        padding: 14px 16px;
+    }
+
+    .message {
+        max-width: 90%;
+        font-size: 0.92rem;
+    }
+}
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 540px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #status {
+        font-size: 0.72rem;
+    }
+
+    .message {
+        max-width: 95%;
+        padding: 11px 14px;
+    }
+
+    .input-group {
+        flex-direction: column;
+    }
+
+    input {
+        width: 100%;
+        font-size: 16px;
+        /* prevents iOS zoom */
+    }
+
+    button {
+        width: 100%;
+        min-height: 50px;
+    }
+
+    .chat-area {
+        padding: 14px;
+        gap: 10px;
+    }
+
+    .controls {
+        padding: 12px;
+    }
+}
+
+/* =========================
+   SMALL DEVICES
+   ========================= */
+
+@media (max-width: 360px) {
+    h1 {
+        font-size: 1rem;
+    }
+
+    .message {
+        font-size: 0.88rem;
+    }
+
+    input {
+        padding: 12px 14px;
+    }
+
+    button {
+        font-size: 0.88rem;
+    }
+}
+</style>
+
+
+
+
+
+
+<body>
+
+    <div class="app-container">
+        <header>
+            <h1>🛰️ TitanPl SpaceStation <span class="room-badge" id="room-display" style="display:none"></span></h1>
+            <div id="status">Connecting...</div>
+        </header>
+
+        <div id="messages" class="chat-area">
+            <div class="message space-ship">Connecting to SpaceStation...</div>
+        </div>
+
+        <div class="controls">
+            <div class="input-group" id="join-controls">
+                <input id="room-input" placeholder="Enter Room ID (e.g. general, lobby)..." autocomplete="off">
+                <button onclick="join()">Join Room</button>
+            </div>
+
+            <div class="input-group" id="chat-controls" style="display: none;">
+                <input id="msg-input" placeholder="Type a message..." autocomplete="off">
+                <button onclick="send()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let ws;
+        let myId, currentRoom;
+        const messagesContainer = document.getElementById('messages');
+        const statusEl = document.getElementById('status');
+        const joinControls = document.getElementById('join-controls');
+        const chatControls = document.getElementById('chat-controls');
+        const roomDisplay = document.getElementById('room-display');
+
+        async function addMessage(text, type = 'space-ship', sender = null, imageData = null) {
+            const div = document.createElement('div');
+            div.className = `message ${type}`;
+
+            if (type !== 'space-ship') {
+                const info = document.createElement('div');
+                info.className = 'message-info';
+                info.innerHTML = `<span>${sender}</span> <span>${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>`;
+                div.appendChild(info);
+
+                if (imageData) {
+                    const response = await fetch(`${imageData}&format=raw`);
+                    const base64 = await response.text();
+
+                    const img = document.createElement("img");
+                    img.src = `data:image/webp;base64,${base64}`;
+                    img.style.width = "300px";
+                    img.style.height = "300px"
+                    img.style.borderRadius = "12px";
+                    img.style.marginTop = "8px";
+                    img.style.display = "block";
+                    img.style.boxShadow = "0 4px 12px rgba(0,0,0,0.3)";
+                    div.appendChild(img);
+                }
+
+                if (text && text !== "[Image Shared]") {
+                    const content = document.createElement('div');
+                    content.innerText = text;
+                    div.appendChild(content);
+                }
+            } else {
+                div.innerText = text;
+            }
+
+            messagesContainer.appendChild(div);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function send() {
+            const msgInput = document.getElementById('msg-input');
+            const message = msgInput.value.trim();
+
+            if (!message) return;
+
+            addMessage(message, 'outgoing', 'You');
+
+            ws.send(JSON.stringify({
+                event: "room_chat",
+                data: {
+                    room: currentRoom,
+                    message: message
+                }
+            }));
+
+            msgInput.value = '';
+        }
+        
+        function connect() {
+            const host = "ws://localhost:5100" || "wss://";
+            try {
+                ws = new WebSocket(`${host}/chat`);
+
+                ws.onopen = () => {
+                    statusEl.innerText = 'Connected';
+                    statusEl.classList.add('connected');
+                    addMessage('🛰️ System: Link Established.');
+                };
+
+                ws.onclose = () => {
+                    statusEl.innerText = 'Disconnected';
+                    statusEl.classList.remove('connected');
+                    addMessage('⚠️ space-ship: Connection Lost. Retrying...', 'space-ship');
+                    setTimeout(connect, 3000);
+                };
+
+                ws.onerror = (err) => {
+                    console.error('Socket Error:', err);
+                };
+
+                ws.onmessage = (e) => {
+                    try {
+                        const payload = JSON.parse(e.data);
+                        const { event, data } = payload;
+
+                        if (event === 'welcome') {
+                            myId = data.id;
+                            addMessage(`Welcome! Your ID: ${myId.substring(0, 8)}...`, 'space-ship');
+                        }
+
+                        if (event === 'room_joined') {
+                            currentRoom = data.room;
+                            roomDisplay.innerText = `room: ${currentRoom.toUpperCase()}`;
+                            roomDisplay.style.display = 'inline-block';
+                            joinControls.style.display = 'none';
+                            chatControls.style.display = 'flex';
+                            addMessage(`Joined room: ${data.room}`, 'space-ship');
+                        }
+
+                        if (event === 'user_joined') {
+                            addMessage(`User ${data.user.substring(0, 8)} joined the room`, 'space-ship');
+                        }
+
+                        if (event === 'room_message') {
+                            if (data.room !== currentRoom) return;
+
+                            if (data.user === myId) return;
+
+                            const type = data.user === myId ? 'outgoing' : 'incoming';
+                            const sender = data.user === myId ? 'You' : `User ${data.user.substring(0, 8)}`;
+
+                            addMessage(data.text, type, sender);
+                        }
+
+                        if (event === 'error') {
+                            addMessage(`Error: ${data.msg}`, 'space-ship');
+                        }
+                    } catch (err) {
+                        console.warn('Failed to parse message:', e.data);
+                    }
+                };
+            } catch (e) {
+                console.error('Connection failed:', e);
+            }
+        }
+
+        function join() {
+            const input = document.getElementById('room-input');
+            const room = input.value.trim();
+            if (!room) return;
+
+            ws.send(JSON.stringify({ event: "join_room", data: room }));
+        }
+
+        // Enter key support
+        document.getElementById('room-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') join();
+        });
+        document.getElementById('msg-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') send();
+        });
+
+        connect();
+    </script>
+</body>
+
+</html>

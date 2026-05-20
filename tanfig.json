@@ -1,0 +1,18 @@
+{
+  "name": "chat-server",
+  "description": "A powerful TitanPL project",
+  "version": "1.0.0",
+  "extensions": {
+    "allowWasm": true,
+    "allowNative": [
+      "@titanpl/core"
+    ]
+  },
+  "build": {
+    "files": [
+      "public",
+      "static",
+      "tanfig.json"
+    ]
+  }
+}
